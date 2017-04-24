@@ -1,4 +1,4 @@
-project(EmbeddingJulia LANGUAGES C)
+project(EmbeddingJulia)
 
 cmake_minimum_required(VERSION 2.8.12)
 
@@ -41,6 +41,9 @@ execute_process(COMMAND ${JULIA_COMMAND} ${CMAKE_SOURCE_DIR}/process_libdir.jl $
 # link_directories(${JULIA_LIB_DIRECTORY})
 set(CMAKE_INSTALL_RPATH "${JULIA_LIB_DIRECTORY}")
 
+message(STATUS "lib dir: ${JULIA_LIB_DIRECTORY}")
+message(STATUS "inc dir: ${JULIA_INCLUDE_DIRECTORY}")
+
 set(JULIA_LIBRARY ${JULIA_LIB_DIRECTORY}/${JULIA_LIBNAME})
 if(WIN32)
   set(JULIA_LIBRARY ${JULIA_ROOT}/lib/${JULIA_LIBNAME})
@@ -51,7 +54,7 @@ if(UNIX)
   list(APPEND JULIA_LIBRARIES "m")
 endif()
 
-add_executable(embedding embedding.c)
+add_executable(embedding embedding.cpp)
 set_target_properties(embedding PROPERTIES COMPILE_FLAGS ${JULIA_C_FLAGS_PROCESSED})
 target_include_directories(embedding PUBLIC ${JULIA_INCLUDE_DIRECTORY})
 target_link_libraries(embedding ${JULIA_LIBRARIES})
