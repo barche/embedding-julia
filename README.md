@@ -10,7 +10,7 @@ This example project shows how to build a C project that embeds Julia and uses C
 ## Usage
 
 ### CMake
-From the CMake GUI, choose or create a build directory and set the source directory to the directory containing `CMakeLists.txt`. Configure and set the `JULIA_ROOT` CMake variable to correspond to the directory that contains the Julia installation (`bin`  dir, `lib` dir and so on) you want to build against. Configure again and then generate. On Windows, make sure you choose the appropriate 32 bit or 64 bit version of Visual Studio
+From the CMake GUI, choose or create a build directory and set the source directory to the directory containing `CMakeLists.txt`. Configure and set the `Julia_EXECUTABLE` CMake variable to correspond to the Julia executable you want to build against. Configure again and then generate. On Windows, make sure you choose the appropriate 32 bit or 64 bit version of Visual Studio
 
 ### Compiling and testing
 #### OS X and Linux
