@@ -35,9 +35,9 @@ if(DEFINED ENV{JULIA_INCLUDE_DIRS})
         CACHE STRING "Location of Julia include files")
 else()
     execute_process(
-        COMMAND ${Julia_EXECUTABLE} --startup-file=no -E "julia_include_dir = joinpath(match(r\"(.*)(bin)\",JULIA_HOME).captures[1],\"include\",\"julia\")\n
+        COMMAND ${Julia_EXECUTABLE} --startup-file=no -E "julia_include_dir = joinpath(match(r\"(.*)(bin)\",Sys.BINDIR).captures[1],\"include\",\"julia\")\n
             if !isdir(julia_include_dir)  # then we're running directly from build\n
-            julia_base_dir_aux = splitdir(splitdir(JULIA_HOME)[1])[1]  # useful for running-from-build\n
+            julia_base_dir_aux = splitdir(splitdir(Sys.BINDIR)[1])[1]  # useful for running-from-build\n
             julia_include_dir = joinpath(julia_base_dir_aux, \"usr\", \"include\" )\n
             julia_include_dir *= \";\" * joinpath(julia_base_dir_aux, \"src\", \"support\" )\n
             julia_include_dir *= \";\" * joinpath(julia_base_dir_aux, \"src\" )\n
@@ -58,7 +58,7 @@ MESSAGE(STATUS "Julia_INCLUDE_DIRS:   ${Julia_INCLUDE_DIRS}")
 ###################
 
 execute_process(
-    COMMAND ${Julia_EXECUTABLE} --startup-file=no -E "abspath(dirname(Libdl.dlpath(\"libjulia\")))"
+    COMMAND ${Julia_EXECUTABLE} --startup-file=no -E "using Libdl; abspath(dirname(Libdl.dlpath(\"libjulia\")))"
     OUTPUT_VARIABLE Julia_LIBRARY_DIR
 )
 
@@ -88,18 +88,18 @@ MESSAGE(STATUS "Julia_LIBRARY_DIR:    ${Julia_LIBRARY_DIR}")
 MESSAGE(STATUS "Julia_LIBRARY:        ${Julia_LIBRARY}")
 
 ##############
-# JULIA_HOME #
+# Sys.BINDIR #
 ##############
 
 execute_process(
-    COMMAND ${Julia_EXECUTABLE} --startup-file=no -E "JULIA_HOME"
-    OUTPUT_VARIABLE JULIA_HOME
+    COMMAND ${Julia_EXECUTABLE} --startup-file=no -E "Sys.BINDIR"
+    OUTPUT_VARIABLE Sys.BINDIR
 )
 
-string(REGEX REPLACE "\"" "" JULIA_HOME "${JULIA_HOME}")
-string(REGEX REPLACE "\n" "" JULIA_HOME "${JULIA_HOME}")
+string(REGEX REPLACE "\"" "" Sys.BINDIR "${Sys.BINDIR}")
+string(REGEX REPLACE "\n" "" Sys.BINDIR "${Sys.BINDIR}")
 
-MESSAGE(STATUS "JULIA_HOME:           ${JULIA_HOME}")
+MESSAGE(STATUS "Sys.BINDIR:           ${Sys.BINDIR}")
 
 ###################
 # libLLVM version #
