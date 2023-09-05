@@ -20,6 +20,6 @@ enable_testing()
 add_test(NAME test-embedding COMMAND embedding)
 set_property(TEST test-embedding PROPERTY
   ENVIRONMENT
-    "PATH=${JULIA_HOME}"
-    "JULIA_HOME=${JULIA_HOME}"
+    "PATH=${Sys.BINDIR}"
+    "Sys.BINDIR=${Sys.BINDIR}"
 )
